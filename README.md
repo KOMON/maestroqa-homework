@@ -16,6 +16,9 @@ In *test_output.py* we have a simple test to verify the correctness of the outpu
 
 In *mock_db.py* there are several functions that you can use in your code that will help simulate database calls similar to a real system. This file is only here to provide functionality and should not be edited.
 
+
+You MUST use the instance of MockDb instantiated in *starter_code.py* and may NOT use a Python Lock Object.
+
 ### Note:
 
 If you run the starter code, you will see that there is a concurrency issue, as multiple workers write to the file at the same time, interleaving the chunks of text. Using the fake database functions in mock_db.py, come up with a system to control the execution of workers so that the concurrency is handled correctly [this should be written in starter_code.py]. You will only need to modify code outside the main function in starter_code.py. Furthermore, this should be accomplished by running the script once. That is, it should handle all failures appropriately and run all subsequent workers. A valid solution will write the previously mentioned output to output.txt by only running `python start_code.py`. It will also pass all assertions when running `python test_output.py`.
