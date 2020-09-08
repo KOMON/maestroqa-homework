@@ -3,13 +3,42 @@ import uuid
 from worker import worker_main
 from threading import Thread
 
-def lock_is_free():
+def lock(key, worker_hash, db):
+    """
+    Lock a named lock using the given db handle, creating it if necessary.
+
+    Locking a lock that is currently held by a different worker (identified by worker_hash) fails
+
+    Locking a lock that is currently held by the same user is a no-op
+
+    Args:
+        key: a string naming the lock
+        worker_hash: an string identifying the worker that currently holds the lock
+        db: a mock_db.DB handle
+    """
+    pass
+
+def unlock(key, worker_hash, db):
+    """
+    Unlock a named lock using the given db handle. Only the worker currently holding the lock can unlock it
+
+    Unlocking a named lock that does not exist is a no-op
+
+    Unlocking a lock that is currently held by a different worker (identified by worker_hash) fails
+
+    Args:
+        key: a string naming the lock
+        worker_hash: an string identifying the worker that currently holds the lock
+        db: a mock_db.DB handle
+    """
+    pass
+
+def lock_is_free(key, worker_hash, db):
     """
         CHANGE ME, POSSIBLY MY ARGS
 
         Return whether the lock is free
     """
-
     return True
 
 
@@ -27,8 +56,12 @@ def attempt_run_worker(worker_hash, give_up_after, db, retry_interval):
                             until the lock is free, unless we have been trying for more
                             than give_up_after seconds
     """
-    if lock_is_free():
-        worker_main(worker_hash, db)
+    try:
+        if lock_is_free('worker', worker_hash, db):
+            lock('worker', worker_hash, db)
+            worker_main(worker_hash, db)
+    finally:
+        unlock('worker', worker_hash, db)
 
 
 if __name__ == "__main__":
