@@ -1,0 +1,1071 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-09-09 Wed 09:57 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Daniel Raloff" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="org.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org02b00e7">1. Notes on MaestroQA homework</a>
+<ul>
+<li><a href="#org5033f7c">1.1. Introduction</a></li>
+<li><a href="#org7f3ef6f">1.2. Live thoughts</a>
+<ul>
+<li><a href="#orgc397758">1.2.1. Okay, so, instructions</a></li>
+<li><a href="#org9711b75">1.2.2. First pass</a></li>
+<li><a href="#org17efa0f">1.2.3. Filling in details</a></li>
+<li><a href="#orgf4709a7">1.2.4. Details: Filled</a></li>
+<li><a href="#org177e1e6">1.2.5. The Atomic Pass</a></li>
+<li><a href="#orgf77077f">1.2.6. Retry logic</a></li>
+<li><a href="#org073a57a">1.2.7. Just one more thing&#x2026;</a></li>
+<li><a href="#orgd7dd3d1">1.2.8. Conclusion</a></li>
+</ul>
+</li>
+<li><a href="#org4008679">1.3. Git Key</a>
+<ul>
+<li><a href="#orgcfbc4b0">1.3.1. Branches</a></li>
+<li><a href="#org00ebd7b">1.3.2. Tags</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org02b00e7" class="outline-2">
+<h2 id="org02b00e7"><span class="section-number-2">1</span> Notes on MaestroQA homework</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org5033f7c" class="outline-3">
+<h3 id="org5033f7c"><span class="section-number-3">1.1</span> Introduction</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Hello there! These notes are a sort of stream-of-conciousness of my thought
+process as I tackled this problem.
+</p>
+
+<p>
+I find that when it comes to take-home assignments capturing these sorts of
+thoughts helps reviewers follow along with my thought process and helps clear up
+any confusion in case there's a deviation from the assignment instructions or a
+misunderstanding.
+</p>
+
+<p>
+In essence, if I get something wrong I'm hoping for points for showing my work.
+</p>
+
+<p>
+I also find that it helps me explore different branches of thought that might
+wander outside of the boundaries of the assignment. Following refactoring ideas,
+cleaning up prescribed interfaces for a neater implmentation, that sort of thing.
+</p>
+
+<p>
+These notes were composed in Emacs, using <code>org-mode</code> and was exported to html
+using @gongzhitaao's org-css project for styling. Github supports org markup, so
+you should also be able to read it comfortably there. Or feel free to view the
+html output in your favorite fashion
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7f3ef6f" class="outline-3">
+<h3 id="org7f3ef6f"><span class="section-number-3">1.2</span> Live thoughts</h3>
+<div class="outline-text-3" id="text-1-2">
+</div>
+<div id="outline-container-orgc397758" class="outline-4">
+<h4 id="orgc397758"><span class="section-number-4">1.2.1</span> Okay, so, instructions</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+Reading through the instructions, we're given a pretty simple scenario. We have
+a bunch of concurrent workers and a resource (an <code>output.txt</code> file) that might be
+in contention between the workers.
+</p>
+
+<p>
+We're given an in-memory database implementation (<code>mock_db.py</code>) with which we'll
+implement a locking solution. Okay, cooperative database locking, I've done this
+before. It can be a little fraught if you're not careful, but for a simple
+homework problem it will be fine.
+</p>
+
+<p>
+25 workers will write 'Maestro is the best&#x2026;&#x2026;' to an output file some N &lt;= 25
+times.
+</p>
+
+<p>
+The provided test makes sure that all the lines that are written are just the
+above message printed in whole. The system as it exists produces garbled output:
+</p>
+
+<pre class="example">
+MaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestro
+isro isro isro isro isro isro isro isro isro isro isro isro isro isro isro isro
+isro isro isro isro isro isro isro is the the the the the the the the the the
+the the the the the the the the the the the the the the
+best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.........................................................................................................................
+
+// newlines omitted
+</pre>
+
+<p>
+This does not pass the test as-is.
+</p>
+
+<p>
+We'll be modifying <code>starter_code.py</code> to implement the locking mechanism.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9711b75" class="outline-4">
+<h4 id="org9711b75"><span class="section-number-4">1.2.2</span> First pass</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+As I think through this problem, I start thinking about semantics and API I want
+the lock to have.
+</p>
+
+<p>
+The lock should have an _id that is known to the other workers. In this instance
+I went with a parameter called <code>key</code> that would essentially just be a lock name,
+I went with the string <code>'worker'</code>, but it would work equally well with a
+generated lock key that is shared amongst the workers. This allows for there to
+be theoretically many locks.
+</p>
+
+<p>
+The lock should have an idea of the current holder of the lock, and looking at
+the current state of <code>starter_code.py</code> it seems that <code>worker_hash</code> is a
+serviceable identifier.
+</p>
+
+<p>
+Only the current holder of the lock should be able to unlock the lock, but any
+worker should be able to see the status of the lock.
+</p>
+
+<p>
+Finally, in all cases we always want the lock to be unlocked when the worker has
+finished, successfully or no. This'll mean wrapping the worker up in a
+<code>try...finally</code> that ensures the lock is unlocked on the way out.
+</p>
+
+<p>
+You can see stubs of where I was in my thought process here by checking out the
+tag <code>semantics-and-api</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org17efa0f" class="outline-4">
+<h4 id="org17efa0f"><span class="section-number-4">1.2.3</span> Filling in details</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<p>
+As the solution is taking shape in my mind, I begin to fill out the details of
+each function and write some tests to make sure I'm implementing things
+correctly as I go along.
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="orgf11361c"></a>Creating a lock in the database<br />
+<div class="outline-text-5" id="text-1-2-3-1">
+<p>
+First off, we'll set up a little <code>unittest</code> test case
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">from</span> starter_code <span style="color: #00af00; font-weight: bold;">import</span> lock, unlock, lock_is_free
+<span style="color: #00af00; font-weight: bold;">from</span> mock_db <span style="color: #00af00; font-weight: bold;">import</span> DB
+<span style="color: #00af00; font-weight: bold;">from</span> unittest <span style="color: #00af00; font-weight: bold;">import</span> TestCase
+
+<span style="color: #00af00; font-weight: bold;">import</span> uuid
+
+<span style="color: #00af00; font-weight: bold;">class</span> <span style="color: #18b2b2; font-weight: bold;">LockTestCase</span>(TestCase):
+    <span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">setUp</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+        <span style="color: #00af00; font-weight: bold;">self</span>.db = DB()
+        <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash = uuid.uuid1()
+        <span style="color: #00af00; font-weight: bold;">self</span>.other_worker_hash = uuid.uuid1()
+</pre>
+</div>
+
+<p>
+This gets us off to a good start, some simple test rigging.
+</p>
+
+<p>
+Okay, the first test I want to write is that I want to make sure that we can
+actually create a lock in the mock db
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">test_lock_can_create_a_new_lock</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    lock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+    <span style="color: #ff8700;">new_lock</span> = <span style="color: #00af00; font-weight: bold;">self</span>.db.find_one({ <span style="color: #ff1f8b;">'_id'</span>: <span style="color: #ff1f8b;">'worker'</span> })
+    <span style="color: #00af00; font-weight: bold;">self</span>.assertIsNotNone(new_lock)
+</pre>
+</div>
+
+<p>
+This test currently fails, because the <code>lock</code> function doesn't yet have a body,
+let's fix that.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">lock</span>(key, worker_hash, db):
+    <span style="color: #b2b2b2; font-style: italic;"># </span><span style="color: #b2b2b2; font-style: italic;">... snip docstring ...</span>
+    db.insert_one({ <span style="color: #ff1f8b;">'_id'</span>: key })
+</pre>
+</div>
+
+<p>
+This implementation is incomplete, but it passes the test as is. Let's move on.
+</p>
+</div>
+</li>
+
+<li><a id="org579688f"></a><code>lock</code> sets the <code>locked</code> field of the lock to <code>True</code><br />
+<div class="outline-text-5" id="text-1-2-3-2">
+<p>
+The format we'll follow from here is to simply list the new test case, and then
+some commentary to getting the test green.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">test_lock_sets_the_locked_field_to_true</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    lock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+    <span style="color: #ff8700;">new_lock</span> = <span style="color: #00af00; font-weight: bold;">self</span>.db.find_one({ <span style="color: #ff1f8b;">'_id'</span>: <span style="color: #ff1f8b;">'worker'</span> })
+    <span style="color: #00af00; font-weight: bold;">self</span>.assertEqual(new_lock.get(<span style="color: #ff1f8b;">'locked'</span>, <span style="color: #1f5bff;">None</span>), <span style="color: #1f5bff;">True</span>)
+</pre>
+</div>
+
+<p>
+This one is pretty simple, we simply include that attribute in the lock document:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">db.insert_one({ <span style="color: #ff1f8b;">'_id'</span>: key, <span style="color: #ff1f8b;">'locked'</span>: <span style="color: #1f5bff;">True</span> })
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgb8059fd"></a><code>lock</code> sets the <code>owner</code> field to match the given <code>worker_hash</code><br />
+<div class="outline-text-5" id="text-1-2-3-3">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">test_lock_sets_the_owner_field_to_match_the_worker_hash</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    lock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+    <span style="color: #ff8700;">new_lock</span> = <span style="color: #00af00; font-weight: bold;">self</span>.db.find_one({ <span style="color: #ff1f8b;">'_id'</span>: <span style="color: #ff1f8b;">'worker'</span> })
+    <span style="color: #00af00; font-weight: bold;">self</span>.assertEqual(new_lock.get(<span style="color: #ff1f8b;">'owner'</span>, <span style="color: #1f5bff;">None</span>), <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash)
+</pre>
+</div>
+
+<p>
+Again, simply add <code>worker_hash</code> to the document
+</p>
+<div class="org-src-container">
+<pre class="src src-python">db.insert_one({ <span style="color: #ff1f8b;">'_id'</span>: key, <span style="color: #ff1f8b;">'locked'</span>: <span style="color: #1f5bff;">True</span>, <span style="color: #ff1f8b;">'owner'</span>: worker_hash })
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org890b198"></a><code>lock</code> raises an error when a currently-locked lock is attempted to be locked by a different owner<br />
+<div class="outline-text-5" id="text-1-2-3-4">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">test_lock_raises_when_already_locked_by_a_different_owner</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    lock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+    <span style="color: #00af00; font-weight: bold;">with</span> <span style="color: #00af00; font-weight: bold;">self</span>.assertRaisesRegex(<span style="color: #18b2b2; font-weight: bold;">Exception</span>, <span style="color: #ff1f8b;">'^.* already locked!$'</span>):
+        lock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.other_worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+
+</pre>
+</div>
+
+<p>
+This fails because instead a DuplicateKeyError is raised. We must raise our own
+error before we attempt to create the lock.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">lock</span>(key, worker_hash, db):
+    <span style="color: #b2b2b2; font-style: italic;"># </span><span style="color: #b2b2b2; font-style: italic;">... snip docstring</span>
+    <span style="color: #ff8700;">lock</span> = db.find_one({ <span style="color: #ff1f8b;">'_id'</span>: key })
+
+    <span style="color: #00af00; font-weight: bold;">if</span> lock == <span style="color: #1f5bff;">None</span>:
+        db.insert_one({ <span style="color: #ff1f8b;">'_id'</span>: key, <span style="color: #ff1f8b;">'locked'</span>: <span style="color: #1f5bff;">True</span>, <span style="color: #ff1f8b;">'owner'</span>: worker_hash })
+
+    <span style="color: #00af00; font-weight: bold;">if</span> lock[<span style="color: #ff1f8b;">'locked'</span>] == <span style="color: #1f5bff;">True</span> <span style="color: #00af00; font-weight: bold;">and</span> lock[<span style="color: #ff1f8b;">'owner'</span>] != worker_hash:
+        <span style="color: #00af00; font-weight: bold;">raise</span> <span style="color: #18b2b2; font-weight: bold;">Exception</span>(f<span style="color: #ff1f8b;">'{key} is already locked!'</span>)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org02d00f6"></a><code>lock</code> updates an existing unlocked lock to read as locked and with a new owner<br />
+<div class="outline-text-5" id="text-1-2-3-5">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">test_lock_updates_an_existing_unlocked_lock</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    lock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+    <span style="color: #00af00; font-weight: bold;">self</span>.db.update_one({ <span style="color: #ff1f8b;">'_id'</span>: <span style="color: #ff1f8b;">'worker'</span> }, { <span style="color: #ff1f8b;">'locked'</span>: <span style="color: #1f5bff;">False</span> })
+
+    lock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.other_worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+
+    <span style="color: #ff8700;">new_lock</span> = <span style="color: #00af00; font-weight: bold;">self</span>.db.find_one({ <span style="color: #ff1f8b;">'_id'</span>: <span style="color: #ff1f8b;">'worker'</span> })
+    <span style="color: #00af00; font-weight: bold;">self</span>.assertEqual(new_lock[<span style="color: #ff1f8b;">'locked'</span>], <span style="color: #1f5bff;">True</span>)
+    <span style="color: #00af00; font-weight: bold;">self</span>.assertEqual(new_lock[<span style="color: #ff1f8b;">'owner'</span>], <span style="color: #00af00; font-weight: bold;">self</span>.other_worker_hash)
+</pre>
+</div>
+
+<p>
+This test is a little more involved, basically we create a new lock and update
+it manually to be unlocked.
+</p>
+
+<p>
+Then we lock the <code>'worker'</code> lock again, this time specifying a new <code>owner</code>, and
+ensure that the lock is updated correctly.
+</p>
+
+<p>
+Again, the new code is fairly straightforward:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">lock</span>(key, worker_hash, db):
+    <span style="color: #b2b2b2; font-style: italic;"># </span><span style="color: #b2b2b2; font-style: italic;">... snip docstring</span>
+    <span style="color: #ff8700;">lock</span> = db.find_one({ <span style="color: #ff1f8b;">'_id'</span>: key })
+
+    <span style="color: #00af00; font-weight: bold;">if</span> lock == <span style="color: #1f5bff;">None</span>:
+        <span style="color: #00af00; font-weight: bold;">return</span> db.insert_one({ <span style="color: #ff1f8b;">'_id'</span>: key, <span style="color: #ff1f8b;">'locked'</span>: <span style="color: #1f5bff;">True</span>, <span style="color: #ff1f8b;">'owner'</span>: worker_hash })
+
+    <span style="color: #00af00; font-weight: bold;">if</span> lock[<span style="color: #ff1f8b;">'locked'</span>] == <span style="color: #1f5bff;">True</span> <span style="color: #00af00; font-weight: bold;">and</span> lock[<span style="color: #ff1f8b;">'owner'</span>] != worker_hash:
+        <span style="color: #00af00; font-weight: bold;">raise</span> <span style="color: #18b2b2; font-weight: bold;">Exception</span>(f<span style="color: #ff1f8b;">'{key} is already locked!'</span>)
+
+    db.update_one({ <span style="color: #ff1f8b;">'_id'</span>: key }, { <span style="color: #ff1f8b;">'locked'</span>: <span style="color: #1f5bff;">True</span>, <span style="color: #ff1f8b;">'owner'</span>: worker_hash })
+</pre>
+</div>
+
+<p>
+This implementation is a bit simplistic. For example, it ignores the case where
+the lock is already locked, but the owner is the same as the one currently
+requesting the lock.
+</p>
+
+<p>
+I chose here to let this be the case because the outcome is the same as the next
+case. If, for example, we had performance concerns, or implemented lock
+expiration based on a stored timestamp, we'd want to address that case directly.
+</p>
+</div>
+</li>
+
+<li><a id="org83f939e"></a><code>unlock</code> should update the locked field to False<br />
+<div class="outline-text-5" id="text-1-2-3-6">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">test_unlock_sets_the_locked_field_to_false</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    lock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+    unlock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+
+    <span style="color: #ff8700;">new_lock</span> = <span style="color: #00af00; font-weight: bold;">self</span>.db.find_one({ <span style="color: #ff1f8b;">'_id'</span>: <span style="color: #ff1f8b;">'worker'</span> })
+    <span style="color: #00af00; font-weight: bold;">self</span>.assertFalse(new_lock[<span style="color: #ff1f8b;">'locked'</span>])
+</pre>
+</div>
+
+<p>
+This is our first test for <code>unlock</code>, and the implementation is pretty simple here.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">unlock</span>(key, worker_hash, db):
+    <span style="color: #b2b2b2; font-style: italic;"># </span><span style="color: #b2b2b2; font-style: italic;">... snip docblock</span>
+    db.update_one({ <span style="color: #ff1f8b;">'_id'</span>: key }, { <span style="color: #ff1f8b;">'locked'</span>: <span style="color: #1f5bff;">False</span> })
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org74536b8"></a><code>unlock</code> should gracefully handle non-existent locks<br />
+<div class="outline-text-5" id="text-1-2-3-7">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">test_unlock_handles_locks_that_do_not_exist</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    unlock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+
+    <span style="color: #ff8700;">new_lock</span> = <span style="color: #00af00; font-weight: bold;">self</span>.db.find_one({ <span style="color: #ff1f8b;">'_id'</span>: <span style="color: #ff1f8b;">'worker'</span> })
+    <span style="color: #00af00; font-weight: bold;">self</span>.assertIsNone(new_lock)
+</pre>
+</div>
+
+<p>
+This test actually passes without any changes. I think that's fine, performance
+isn't even really an issue since any change to the code would involve trying to
+lookup the lock first, so it wouldn't save us a roundtrip.
+</p>
+</div>
+</li>
+
+<li><a id="orgd808795"></a><code>unlock</code> should raise if it is called by a worker that is not the owner<br />
+<div class="outline-text-5" id="text-1-2-3-8">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">test_unlock_raises_if_locked_by_a_different_owner</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    lock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+    <span style="color: #00af00; font-weight: bold;">with</span> <span style="color: #00af00; font-weight: bold;">self</span>.assertRaisesRegex(<span style="color: #18b2b2; font-weight: bold;">Exception</span>, <span style="color: #ff1f8b;">'^.* locked by a different owner!$'</span>):
+        unlock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.other_worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+</pre>
+</div>
+
+<p>
+Pretty simple implementation here. Since now we have to look up the lock anyway,
+I went ahead and refactored the code to return early if the lookup comes back empty.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">unlock</span>(key, worker_hash, db):
+    <span style="color: #b2b2b2; font-style: italic;"># </span><span style="color: #b2b2b2; font-style: italic;">... snip docstring</span>
+    <span style="color: #ff8700;">lock</span> = db.find_one({ <span style="color: #ff1f8b;">'_id'</span>: key })
+
+    <span style="color: #00af00; font-weight: bold;">if</span> lock == <span style="color: #1f5bff;">None</span>:
+        <span style="color: #00af00; font-weight: bold;">return</span>
+
+    <span style="color: #00af00; font-weight: bold;">if</span> lock[<span style="color: #ff1f8b;">'owner'</span>] != worker_hash:
+        <span style="color: #00af00; font-weight: bold;">raise</span> <span style="color: #18b2b2; font-weight: bold;">Exception</span>(f<span style="color: #ff1f8b;">'{key} locked by a different owner!'</span>)
+
+    db.update_one({ <span style="color: #ff1f8b;">'_id'</span>: key }, { <span style="color: #ff1f8b;">'locked'</span>: <span style="color: #1f5bff;">False</span> })
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgad4e4d5"></a><code>lock_is_free</code> returns true if lock does not exist<br />
+<div class="outline-text-5" id="text-1-2-3-9">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">test_lock_is_free_handles_non_existent_lock</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    <span style="color: #ff8700;">result</span> = lock_is_free(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+    <span style="color: #00af00; font-weight: bold;">self</span>.assertTrue(result)
+</pre>
+</div>
+
+<p>
+This test acually requires no changes so far.
+</p>
+</div>
+</li>
+
+<li><a id="org900126a"></a><code>lock_is_free</code> returns the status of the lock<br />
+<div class="outline-text-5" id="text-1-2-3-10">
+<p>
+This one takes two tests
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">test_lock_is_free_returns_true_if_lock_is_unlocked</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    lock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+    unlock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+
+    <span style="color: #00af00; font-weight: bold;">self</span>.assertTrue(lock_is_free(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.other_worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db))
+
+<span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">test_lock_is_free_returns_false_if_lock_is_locked</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    lock(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db)
+
+    <span style="color: #00af00; font-weight: bold;">self</span>.assertFalse(lock_is_free(<span style="color: #ff1f8b;">'worker'</span>, <span style="color: #00af00; font-weight: bold;">self</span>.other_worker_hash, <span style="color: #00af00; font-weight: bold;">self</span>.db))
+</pre>
+</div>
+
+<p>
+And the changes necessary are pretty minimal. I include explicit handling of the
+<code>None</code> case here to ensure the other test continues passing.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">lock_is_free</span>(key, worker_hash, db):
+    <span style="color: #b2b2b2; font-style: italic;"># </span><span style="color: #b2b2b2; font-style: italic;">... snip docstring</span>
+    <span style="color: #ff8700;">lock</span> = db.find_one({ <span style="color: #ff1f8b;">'_id'</span>: key })
+    <span style="color: #00af00; font-weight: bold;">return</span> lock == <span style="color: #1f5bff;">None</span> <span style="color: #00af00; font-weight: bold;">or</span> <span style="color: #00af00; font-weight: bold;">not</span> lock[<span style="color: #ff1f8b;">'locked'</span>]
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orgf4709a7" class="outline-4">
+<h4 id="orgf4709a7"><span class="section-number-4">1.2.4</span> Details: Filled</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<p>
+And with that last set of passing tests, the first round of implementation work
+is already done. Feel free to checkout the tag <code>lock-tests</code> to get a sense of where we are.
+</p>
+
+
+<p>
+Let's check and see by running the starter code&#x2026;.
+</p>
+<pre class="example">
+(maestroqa_homework) $ python starter_code.py
+Exception in thread Thread-8:
+Traceback (most recent call last):
+  File "starter_code.py", line 82, in attempt_run_worker
+    lock('worker', worker_hash, db)
+  File "starter_code.py", line 22, in lock
+    return db.insert_one({ '_id': key, 'locked': True, 'owner': worker_hash })
+  File "/Users/danra/stuff/InterviewHandout/mock_db.py", line 128, in insert_one
+    raise Exception("DuplicateKeyError")
+Exception: DuplicateKeyError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/opt/python@3.8/Frameworks/Python.framework/Versions/3.8/lib/python3.8/threading.py", line 932, in _bootstrap_inner
+    self.run()
+  File "/usr/local/opt/python@3.8/Frameworks/Python.framework/Versions/3.8/lib/python3.8/threading.py", line 870, in run
+    self._target(*self._args, **self._kwargs)
+  File "starter_code.py", line 85, in attempt_run_worker
+    unlock('worker', worker_hash, db)
+  File "starter_code.py", line 49, in unlock
+    raise Exception(f'{key} locked by a different owner!')
+Exception: worker locked by a different owner!
+// ... on and on for a few more screenfulls
+</pre>
+<p>
+Okay, that absolutely fails.
+</p>
+
+<p>
+Something I had made an assumption about is that once the <code>lock</code>, <code>unlock</code>, or
+<code>lock_is_free</code> functions started running, the rest would run atomically.
+</p>
+
+<p>
+That assumption turned out to be incorrect, because of the call to <code>sleep</code> in
+the <code>mock_db</code>'s <code>insert_one</code> method. Calling <code>sleep</code> there allows for another
+thread to take priority, so each thread sees that the the <code>'worker'</code> lock is
+unlocked and attempts to lock it, resulting in a flood of exceptions.
+</p>
+
+<p>
+We'll have to make another pass, and this time work a bit more atomically.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org177e1e6" class="outline-4">
+<h4 id="org177e1e6"><span class="section-number-4">1.2.5</span> The Atomic Pass</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<p>
+So, because retrieving and then updating the lock can't be counted on, we'll
+have to just eagerly attempt to insert the lock, and if that fails attempt to
+update the lock, and if that fails, raise an exception.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">lock</span>(key, worker_hash, db):
+    <span style="color: #b2b2b2; font-style: italic;"># </span><span style="color: #b2b2b2; font-style: italic;">... snip docstring</span>
+    <span style="color: #00af00; font-weight: bold;">try</span>:
+        db.insert_one({ <span style="color: #ff1f8b;">'_id'</span>: key, <span style="color: #ff1f8b;">'locked'</span>: <span style="color: #1f5bff;">True</span>, <span style="color: #ff1f8b;">'owner'</span>: worker_hash })
+        <span style="color: #00af00; font-weight: bold;">return</span> <span style="color: #1f5bff;">True</span>
+    <span style="color: #00af00; font-weight: bold;">except</span> <span style="color: #18b2b2; font-weight: bold;">Exception</span>:
+        <span style="color: #ff8700;">match</span> = db.update_one({ <span style="color: #ff1f8b;">'_id'</span>: key, <span style="color: #ff1f8b;">'locked'</span>: <span style="color: #1f5bff;">False</span> }, { <span style="color: #ff1f8b;">'locked'</span>: <span style="color: #1f5bff;">True</span>, <span style="color: #ff1f8b;">'owner'</span>: worker_hash })
+        <span style="color: #00af00; font-weight: bold;">return</span> match
+</pre>
+</div>
+
+<p>
+So, the contract has changed a bit here. Now, instead of raising an exception,
+<code>lock</code> simply returns <code>False</code> if the lock could not be acquired.
+</p>
+
+<p>
+We also remove the relevant tests that looked for raised exceptions.
+</p>
+
+<p>
+In addition, we found a small bug in <code>attempt_run_worker</code> where we attempt to
+acquire the lock in a <code>try</code> block and then <code>unlock</code> in the <code>finally</code>, but
+because that lock may not exist or be owned by a different worker at the time,
+we have to shuffle the structure a bit.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">if</span> lock_is_free(<span style="color: #ff1f8b;">'worker'</span>, worker_hash, db) <span style="color: #00af00; font-weight: bold;">and</span> lock(<span style="color: #ff1f8b;">'worker'</span>, worker_hash, db):
+    <span style="color: #00af00; font-weight: bold;">try</span>:
+        worker_main(worker_hash, db)
+    <span style="color: #00af00; font-weight: bold;">finally</span>:
+        unlock(<span style="color: #ff1f8b;">'worker'</span>, worker_hash, db)
+</pre>
+</div>
+
+<p>
+Okay, now when we run this, we get exactly one line of output 'Maestro is the
+best&#x2026;&#x2026;'.
+</p>
+
+<p>
+That makes sense, because only one worker can acquire the lock, the rest die
+immediately. You can see all our progress so far by checking out the tag <code>atomic-pass</code>
+</p>
+
+<p>
+Let's fill in the last bit now: retry logic.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf77077f" class="outline-4">
+<h4 id="orgf77077f"><span class="section-number-4">1.2.6</span> Retry logic</h4>
+<div class="outline-text-4" id="text-1-2-6">
+<p>
+Now, compared to the rest, this bit is a bit simpler. Given values for
+<code>give_up_after</code> and <code>retry_interval</code>, we poll the db in a <code>while</code> loop waiting
+for the lock to become available.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">attempt_run_worker</span>(worker_hash, give_up_after, db, retry_interval):
+    <span style="color: #b2b2b2; font-style: italic;"># </span><span style="color: #b2b2b2; font-style: italic;">... snip docstring</span>
+    <span style="color: #ff8700;">total_wait_time</span> = 0
+    <span style="color: #00af00; font-weight: bold;">while</span> total_wait_time &lt; give_up_after:
+        <span style="color: #00af00; font-weight: bold;">if</span> <span style="color: #00af00; font-weight: bold;">not</span> (lock_is_free(<span style="color: #ff1f8b;">'worker'</span>, worker_hash, db) <span style="color: #00af00; font-weight: bold;">and</span> lock(<span style="color: #ff1f8b;">'worker'</span>, worker_hash, db)):
+            <span style="color: #ff8700;">total_wait_time</span> = total_wait_time + retry_interval
+            sleep(retry_interval)
+            <span style="color: #00af00; font-weight: bold;">continue</span>
+
+        <span style="color: #00af00; font-weight: bold;">try</span>:
+            worker_main(worker_hash, db)
+            <span style="color: #00af00; font-weight: bold;">break</span>
+        <span style="color: #00af00; font-weight: bold;">except</span> <span style="color: #18b2b2; font-weight: bold;">Exception</span> <span style="color: #00af00; font-weight: bold;">as</span> e:
+            <span style="color: #00af00; font-weight: bold;">print</span>(f<span style="color: #ff1f8b;">'{worker_hash} encountered error: {e}'</span>)
+        <span style="color: #00af00; font-weight: bold;">finally</span>:
+            unlock(<span style="color: #ff1f8b;">'worker'</span>, worker_hash, db)
+    <span style="color: #00af00; font-weight: bold;">if</span> total_wait_time &gt;= give_up_after:
+        <span style="color: #00af00; font-weight: bold;">print</span>(f<span style="color: #ff1f8b;">'{worker_hash} gave up after {total_wait_time}'</span>)
+
+</pre>
+</div>
+
+<p>
+Pretty simply, as long as we can't acquire the lock, sleep for <code>retry_interval</code>
+until we pass <code>give_up_after</code>.
+</p>
+
+<p>
+If we finally acquire the lock, start the worker, and break out of the loop,
+making sure to <code>unlock</code> on the way out.
+</p>
+
+<p>
+Now, testing this version, we finally get a successful run. Check out the
+<code>final-version</code> tag (or simply <code>HEAD</code> of the <code>master</code> branch) to see this
+final version.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org073a57a" class="outline-4">
+<h4 id="org073a57a"><span class="section-number-4">1.2.7</span> Just one more thing&#x2026;</h4>
+<div class="outline-text-4" id="text-1-2-7">
+<p>
+So, we finally have a working version of our locking logic. But it's not so fun
+to use.
+</p>
+
+<p>
+If you look at <code>attempt_run_worker</code> there's so many details about getting a lock
+and waiting for the lock to become available that it should simply not be
+responsible for.
+</p>
+
+<p>
+Look at how nearly all of these lock-releated functions all take a <code>key</code> a
+<code>worker_hash</code> and a <code>db</code> instance.
+</p>
+
+<p>
+I think we can clean all of this up with a context handler. However, that
+involves moving around some functions into a different class, which I wasn't
+sure was kosher to the letter of the assignment. So, I've included this work in
+a different branch: <code>contextmanager-locking</code>.
+</p>
+
+<p>
+It's a simple refactor so I'll avoid getting too in-depth here. Mostly we create
+a <code>Lock</code> class and move <code>lock</code>, <code>unlock</code> and <code>lock_is_free</code> into it, renaming
+the latter to simply <code>is_free</code>.
+</p>
+
+<p>
+Then, we move the lock acquisition logic into a new method <code>try_obtain_lock</code>. We
+shuffle around the implementation a bit to make it easier to return whether the
+lock could be acquired on time.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">try_obtain_lock</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    <span style="color: #cc0000; font-style: italic;">"""</span>
+<span style="color: #cc0000; font-style: italic;">    Try to obtain the lock, retrying every self.retry_interval seconds up to</span>
+<span style="color: #cc0000; font-style: italic;">    self.timeout seconds</span>
+
+<span style="color: #cc0000; font-style: italic;">    Returns: </span>
+<span style="color: #cc0000; font-style: italic;">        True - if the lock was obtained</span>
+<span style="color: #cc0000; font-style: italic;">        False - if we timed out before we could acquire the lock</span>
+<span style="color: #cc0000; font-style: italic;">    """</span>
+    <span style="color: #ff8700;">wait_time</span> = 0
+    <span style="color: #ff8700;">lock_result</span> = <span style="color: #1f5bff;">False</span>
+    <span style="color: #00af00; font-weight: bold;">while</span> <span style="color: #00af00; font-weight: bold;">not</span> lock_result <span style="color: #00af00; font-weight: bold;">and</span> wait_time &lt; <span style="color: #00af00; font-weight: bold;">self</span>.timeout:
+        <span style="color: #ff8700;">lock_result</span> = <span style="color: #00af00; font-weight: bold;">self</span>.lock_is_free() <span style="color: #00af00; font-weight: bold;">and</span> <span style="color: #00af00; font-weight: bold;">self</span>.lock()
+        <span style="color: #00af00; font-weight: bold;">if</span> <span style="color: #00af00; font-weight: bold;">not</span> lock_result:
+            <span style="color: #00af00; font-weight: bold;">break</span>
+        <span style="color: #ff8700;">wait_time</span> = wait_time + <span style="color: #00af00; font-weight: bold;">self</span>.retry_interval
+        sleep(<span style="color: #00af00; font-weight: bold;">self</span>.retry_interval)
+
+    <span style="color: #00af00; font-weight: bold;">return</span> lock_result
+</pre>
+</div>
+
+
+<p>
+Then, we define <code>__enter__</code> and <code>__exit__</code> methods to support using instances as context managers:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">__enter__</span>(<span style="color: #00af00; font-weight: bold;">self</span>):
+    <span style="color: #00af00; font-weight: bold;">if</span> <span style="color: #00af00; font-weight: bold;">not</span> <span style="color: #00af00; font-weight: bold;">self</span>.try_obtain_lock()
+        <span style="color: #00af00; font-weight: bold;">raise</span> <span style="color: #18b2b2; font-weight: bold;">Exception</span>(<span style="color: #ff1f8b;">'Timed out waiting for a lock'</span>)
+
+<span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">__exit__</span>(<span style="color: #00af00; font-weight: bold;">self</span>, *args):
+    <span style="color: #00af00; font-weight: bold;">self</span>.unlock()
+</pre>
+</div>
+
+<p>
+As I went along I kept the tests in-sync with the new implementation to ensure everything would work correctly.
+</p>
+
+<p>
+Now <code>attempt_run_worker</code> looks like:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00af00; font-weight: bold;">def</span> <span style="color: #ef2929;">attempt_run_worker</span>(worker_hash, give_up_after, db, retry_interval):
+    <span style="color: #b2b2b2; font-style: italic;"># </span><span style="color: #b2b2b2; font-style: italic;">... snip docstring</span>
+    <span style="color: #ff8700;">lock</span> = Lock(db=db, key=<span style="color: #ff1f8b;">'worker'</span>, owner=worker_hash, timeout=give_up_after, retry_interval=retry_interval)
+
+    <span style="color: #00af00; font-weight: bold;">try</span>:
+        <span style="color: #00af00; font-weight: bold;">with</span> lock:
+            <span style="color: #00af00; font-weight: bold;">try</span>:
+                worker_main(worker_hash, db)
+            <span style="color: #00af00; font-weight: bold;">except</span> <span style="color: #18b2b2; font-weight: bold;">Exception</span> <span style="color: #00af00; font-weight: bold;">as</span> e:
+                <span style="color: #00af00; font-weight: bold;">print</span>(f<span style="color: #ff1f8b;">'{worker_hash} encountered error: {e}'</span>)
+    <span style="color: #00af00; font-weight: bold;">except</span> <span style="color: #18b2b2; font-weight: bold;">Exception</span> <span style="color: #00af00; font-weight: bold;">as</span> e:
+        <span style="color: #00af00; font-weight: bold;">print</span>(f<span style="color: #ff1f8b;">'{worker_hash} gave up waiting after {give_up_after}'</span>)
+
+</pre>
+</div>
+
+<p>
+I feel like we've reached the limits of what we can do for this assignment.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd7dd3d1" class="outline-4">
+<h4 id="orgd7dd3d1"><span class="section-number-4">1.2.8</span> Conclusion</h4>
+<div class="outline-text-4" id="text-1-2-8">
+<p>
+So, just as I initialy thought, it takes some care to ensure that
+database-maintained locks are implemented correctly. The naive solution to read
+in the lock state and make decisions based on that simply allows too much for
+other concurrent processes to grab the lock before we can.
+</p>
+
+<p>
+So, we must let the decision of whether we can take the lock happen as close to
+where the lock is stored as possible to avoid network delays, in this case, the
+database. Real databases also have the advantage of implementing transactional
+locking for us, so it makes sense to lean on that as much as we can.
+</p>
+
+<p>
+At the end of it, we have a working implementation, unit tests to guarantee some
+of the key functions, and (depending on what branch you look at) also a helpful
+context manager to lessen the semantic load while reading through the code.
+</p>
+
+<p>
+Looking forward to hearing back from you, I really enjoyed this assignment!
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4008679" class="outline-3">
+<h3 id="org4008679"><span class="section-number-3">1.3</span> Git Key</h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+<div id="outline-container-orgcfbc4b0" class="outline-4">
+<h4 id="orgcfbc4b0"><span class="section-number-4">1.3.1</span> Branches</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li><code>master</code> - the main assignment branch, and the branch most of the tags point to.</li>
+<li><code>contextmanager-locking</code> - an alternative branch that goes outside of the strict
+letter of the assignment to explore implementing locking as a contextmanager
+implementation</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org00ebd7b" class="outline-4">
+<h4 id="org00ebd7b"><span class="section-number-4">1.3.2</span> Tags</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li><code>semantics-and-api</code> - an initial pass filling in function stubs and a version
+of <code>attempt_run_worker</code> that simply tries to acquire the lock once</li>
+
+<li><code>lock-tests</code> - the result of a TDD approach to filling in the stubs from
+<code>semantics-and-api</code>. Ultimately failing due to non-atomic lock acquisition</li>
+
+<li><code>atomic-pass</code> - a small refactor of the <code>lock</code> function to make it acquire
+locks atomically</li>
+
+<li><code>final-version</code> - the final version of the mainline assignment, implementing
+multiple attempts at lock acquisition in <code>attempt_run_worker</code></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Daniel Raloff</p>
+<p class="date">Created: 2020-09-09 Wed 09:57</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

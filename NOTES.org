@@ -1,0 +1,557 @@
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org.css"/>
+* Notes on MaestroQA homework
+** Introduction
+
+Hello there! These notes are a sort of stream-of-conciousness of my thought
+process as I tackled this problem.
+
+I find that when it comes to take-home assignments capturing these sorts of
+thoughts helps reviewers follow along with my thought process and helps clear up
+any confusion in case there's a deviation from the assignment instructions or a
+misunderstanding.
+
+In essence, if I get something wrong I'm hoping for points for showing my work.
+
+I also find that it helps me explore different branches of thought that might
+wander outside of the boundaries of the assignment. Following refactoring ideas,
+cleaning up prescribed interfaces for a neater implmentation, that sort of thing.
+
+These notes were composed in Emacs, using =org-mode= and was exported to html
+using @gongzhitaao's org-css project for styling. Github supports org markup, so
+you should also be able to read it comfortably there. Or feel free to view the
+html output in your favorite fashion
+
+** Live thoughts
+*** Okay, so, instructions
+Reading through the instructions, we're given a pretty simple scenario. We have
+a bunch of concurrent workers and a resource (an =output.txt= file) that might be
+in contention between the workers.
+
+We're given an in-memory database implementation (=mock_db.py=) with which we'll
+implement a locking solution. Okay, cooperative database locking, I've done this
+before. It can be a little fraught if you're not careful, but for a simple
+homework problem it will be fine.
+
+25 workers will write 'Maestro is the best......' to an output file some N <= 25
+times.
+
+The provided test makes sure that all the lines that are written are just the
+above message printed in whole. The system as it exists produces garbled output:
+
+#+BEGIN_SRC 
+MaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestMaestro
+isro isro isro isro isro isro isro isro isro isro isro isro isro isro isro isro
+isro isro isro isro isro isro isro is the the the the the the the the the the
+the the the the the the the the the the the the the the
+best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.best.........................................................................................................................
+
+// newlines omitted
+#+END_SRC
+
+This does not pass the test as-is.
+
+We'll be modifying =starter_code.py= to implement the locking mechanism.
+
+*** First pass
+
+As I think through this problem, I start thinking about semantics and API I want
+the lock to have.
+
+The lock should have an _id that is known to the other workers. In this instance
+I went with a parameter called =key= that would essentially just be a lock name,
+I went with the string ='worker'=, but it would work equally well with a
+generated lock key that is shared amongst the workers. This allows for there to
+be theoretically many locks.
+
+The lock should have an idea of the current holder of the lock, and looking at
+the current state of =starter_code.py= it seems that =worker_hash= is a
+serviceable identifier.
+
+Only the current holder of the lock should be able to unlock the lock, but any
+worker should be able to see the status of the lock.
+
+Finally, in all cases we always want the lock to be unlocked when the worker has
+finished, successfully or no. This'll mean wrapping the worker up in a
+=try...finally= that ensures the lock is unlocked on the way out.
+
+You can see stubs of where I was in my thought process here by checking out the
+tag =semantics-and-api=.
+
+*** Filling in details
+
+As the solution is taking shape in my mind, I begin to fill out the details of
+each function and write some tests to make sure I'm implementing things
+correctly as I go along.
+
+**** Creating a lock in the database
+
+First off, we'll set up a little =unittest= test case
+
+#+BEGIN_SRC python
+from starter_code import lock, unlock, lock_is_free
+from mock_db import DB
+from unittest import TestCase
+
+import uuid
+
+class LockTestCase(TestCase):
+    def setUp(self):
+        self.db = DB()
+        self.worker_hash = uuid.uuid1()
+        self.other_worker_hash = uuid.uuid1()
+#+END_SRC
+
+This gets us off to a good start, some simple test rigging.
+
+Okay, the first test I want to write is that I want to make sure that we can
+actually create a lock in the mock db
+
+#+BEGIN_SRC python
+def test_lock_can_create_a_new_lock(self):
+    lock('worker', self.worker_hash, self.db)
+    new_lock = self.db.find_one({ '_id': 'worker' })
+    self.assertIsNotNone(new_lock)
+#+END_SRC
+
+This test currently fails, because the =lock= function doesn't yet have a body,
+let's fix that.
+
+#+BEGIN_SRC python
+def lock(key, worker_hash, db):
+    # ... snip docstring ...
+    db.insert_one({ '_id': key })
+#+END_SRC
+
+This implementation is incomplete, but it passes the test as is. Let's move on.
+
+**** =lock= sets the =locked= field of the lock to =True=
+
+The format we'll follow from here is to simply list the new test case, and then
+some commentary to getting the test green.
+
+#+BEGIN_SRC python
+def test_lock_sets_the_locked_field_to_true(self):
+    lock('worker', self.worker_hash, self.db)
+    new_lock = self.db.find_one({ '_id': 'worker' })
+    self.assertEqual(new_lock.get('locked', None), True)
+#+END_SRC
+
+This one is pretty simple, we simply include that attribute in the lock document:
+
+#+BEGIN_SRC python
+db.insert_one({ '_id': key, 'locked': True })
+#+END_SRC
+
+**** =lock= sets the =owner= field to match the given =worker_hash=
+#+BEGIN_SRC python
+def test_lock_sets_the_owner_field_to_match_the_worker_hash(self):
+    lock('worker', self.worker_hash, self.db)
+    new_lock = self.db.find_one({ '_id': 'worker' })
+    self.assertEqual(new_lock.get('owner', None), self.worker_hash)
+#+END_SRC
+
+Again, simply add =worker_hash= to the document
+#+BEGIN_SRC python
+db.insert_one({ '_id': key, 'locked': True, 'owner': worker_hash })
+#+END_SRC
+
+**** =lock= raises an error when a currently-locked lock is attempted to be locked by a different owner
+#+BEGIN_SRC python
+def test_lock_raises_when_already_locked_by_a_different_owner(self):
+    lock('worker', self.worker_hash, self.db)
+    with self.assertRaisesRegex(Exception, '^.* already locked!$'):
+        lock('worker', self.other_worker_hash, self.db)
+
+#+END_SRC
+
+This fails because instead a DuplicateKeyError is raised. We must raise our own
+error before we attempt to create the lock.
+
+#+BEGIN_SRC python
+def lock(key, worker_hash, db):
+    # ... snip docstring
+    lock = db.find_one({ '_id': key })
+
+    if lock == None:
+        db.insert_one({ '_id': key, 'locked': True, 'owner': worker_hash })
+
+    if lock['locked'] == True and lock['owner'] != worker_hash:
+        raise Exception(f'{key} is already locked!')
+#+END_SRC
+
+**** =lock= updates an existing unlocked lock to read as locked and with a new owner
+#+BEGIN_SRC python
+def test_lock_updates_an_existing_unlocked_lock(self):
+    lock('worker', self.worker_hash, self.db)
+    self.db.update_one({ '_id': 'worker' }, { 'locked': False })
+
+    lock('worker', self.other_worker_hash, self.db)
+
+    new_lock = self.db.find_one({ '_id': 'worker' })
+    self.assertEqual(new_lock['locked'], True)
+    self.assertEqual(new_lock['owner'], self.other_worker_hash)
+#+END_SRC
+
+This test is a little more involved, basically we create a new lock and update
+it manually to be unlocked.
+
+Then we lock the ='worker'= lock again, this time specifying a new =owner=, and
+ensure that the lock is updated correctly.
+
+Again, the new code is fairly straightforward:
+
+#+BEGIN_SRC python
+def lock(key, worker_hash, db):
+    # ... snip docstring
+    lock = db.find_one({ '_id': key })
+
+    if lock == None:
+        return db.insert_one({ '_id': key, 'locked': True, 'owner': worker_hash })
+
+    if lock['locked'] == True and lock['owner'] != worker_hash:
+        raise Exception(f'{key} is already locked!')
+
+    db.update_one({ '_id': key }, { 'locked': True, 'owner': worker_hash })
+#+END_SRC
+
+This implementation is a bit simplistic. For example, it ignores the case where
+the lock is already locked, but the owner is the same as the one currently
+requesting the lock.
+
+I chose here to let this be the case because the outcome is the same as the next
+case. If, for example, we had performance concerns, or implemented lock
+expiration based on a stored timestamp, we'd want to address that case directly.
+
+**** =unlock= should update the locked field to False
+#+BEGIN_SRC python
+def test_unlock_sets_the_locked_field_to_false(self):
+    lock('worker', self.worker_hash, self.db)
+    unlock('worker', self.worker_hash, self.db)
+
+    new_lock = self.db.find_one({ '_id': 'worker' })
+    self.assertFalse(new_lock['locked'])
+#+END_SRC
+
+This is our first test for =unlock=, and the implementation is pretty simple here.
+
+#+BEGIN_SRC python
+def unlock(key, worker_hash, db):
+    # ... snip docblock
+    db.update_one({ '_id': key }, { 'locked': False })
+#+END_SRC
+
+**** =unlock= should gracefully handle non-existent locks
+#+BEGIN_SRC python
+def test_unlock_handles_locks_that_do_not_exist(self):
+    unlock('worker', self.worker_hash, self.db)
+
+    new_lock = self.db.find_one({ '_id': 'worker' })
+    self.assertIsNone(new_lock)
+#+END_SRC
+
+This test actually passes without any changes. I think that's fine, performance
+isn't even really an issue since any change to the code would involve trying to
+lookup the lock first, so it wouldn't save us a roundtrip.
+
+**** =unlock= should raise if it is called by a worker that is not the owner
+#+BEGIN_SRC python
+def test_unlock_raises_if_locked_by_a_different_owner(self):
+    lock('worker', self.worker_hash, self.db)
+    with self.assertRaisesRegex(Exception, '^.* locked by a different owner!$'):
+        unlock('worker', self.other_worker_hash, self.db)
+#+END_SRC
+
+Pretty simple implementation here. Since now we have to look up the lock anyway,
+I went ahead and refactored the code to return early if the lookup comes back empty.
+
+#+BEGIN_SRC python
+def unlock(key, worker_hash, db):
+    # ... snip docstring
+    lock = db.find_one({ '_id': key })
+
+    if lock == None:
+        return
+
+    if lock['owner'] != worker_hash:
+        raise Exception(f'{key} locked by a different owner!')
+    
+    db.update_one({ '_id': key }, { 'locked': False })
+#+END_SRC
+
+**** =lock_is_free= returns true if lock does not exist
+#+BEGIN_SRC python
+def test_lock_is_free_handles_non_existent_lock(self):
+    result = lock_is_free('worker', self.worker_hash, self.db)
+    self.assertTrue(result)
+#+END_SRC
+
+This test acually requires no changes so far.
+
+**** =lock_is_free= returns the status of the lock
+This one takes two tests
+#+BEGIN_SRC python
+def test_lock_is_free_returns_true_if_lock_is_unlocked(self):
+    lock('worker', self.worker_hash, self.db)
+    unlock('worker', self.worker_hash, self.db)
+
+    self.assertTrue(lock_is_free('worker', self.other_worker_hash, self.db))
+
+def test_lock_is_free_returns_false_if_lock_is_locked(self):
+    lock('worker', self.worker_hash, self.db)
+
+    self.assertFalse(lock_is_free('worker', self.other_worker_hash, self.db))
+#+END_SRC
+
+And the changes necessary are pretty minimal. I include explicit handling of the
+=None= case here to ensure the other test continues passing.
+
+#+BEGIN_SRC python
+def lock_is_free(key, worker_hash, db):
+    # ... snip docstring
+    lock = db.find_one({ '_id': key })
+    return lock == None or not lock['locked']
+#+END_SRC
+
+*** Details: Filled
+
+And with that last set of passing tests, the first round of implementation work
+is already done. Feel free to checkout the tag =lock-tests= to get a sense of where we are.
+
+
+Let's check and see by running the starter code....
+#+BEGIN_SRC
+(maestroqa_homework) $ python starter_code.py
+Exception in thread Thread-8:
+Traceback (most recent call last):
+  File "starter_code.py", line 82, in attempt_run_worker
+    lock('worker', worker_hash, db)
+  File "starter_code.py", line 22, in lock
+    return db.insert_one({ '_id': key, 'locked': True, 'owner': worker_hash })
+  File "/Users/danra/stuff/InterviewHandout/mock_db.py", line 128, in insert_one
+    raise Exception("DuplicateKeyError")
+Exception: DuplicateKeyError
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/opt/python@3.8/Frameworks/Python.framework/Versions/3.8/lib/python3.8/threading.py", line 932, in _bootstrap_inner
+    self.run()
+  File "/usr/local/opt/python@3.8/Frameworks/Python.framework/Versions/3.8/lib/python3.8/threading.py", line 870, in run
+    self._target(*self._args, **self._kwargs)
+  File "starter_code.py", line 85, in attempt_run_worker
+    unlock('worker', worker_hash, db)
+  File "starter_code.py", line 49, in unlock
+    raise Exception(f'{key} locked by a different owner!')
+Exception: worker locked by a different owner!
+// ... on and on for a few more screenfulls
+#+END_SRC
+Okay, that absolutely fails.
+
+Something I had made an assumption about is that once the =lock=, =unlock=, or
+=lock_is_free= functions started running, the rest would run atomically.
+
+That assumption turned out to be incorrect, because of the call to =sleep= in
+the =mock_db='s =insert_one= method. Calling =sleep= there allows for another
+thread to take priority, so each thread sees that the the ='worker'= lock is
+unlocked and attempts to lock it, resulting in a flood of exceptions.
+
+We'll have to make another pass, and this time work a bit more atomically.
+
+*** The Atomic Pass
+
+So, because retrieving and then updating the lock can't be counted on, we'll
+have to just eagerly attempt to insert the lock, and if that fails attempt to
+update the lock, and if that fails, raise an exception.
+
+#+BEGIN_SRC python
+def lock(key, worker_hash, db):
+    # ... snip docstring
+    try:
+        db.insert_one({ '_id': key, 'locked': True, 'owner': worker_hash })
+        return True
+    except Exception:
+        match = db.update_one({ '_id': key, 'locked': False }, { 'locked': True, 'owner': worker_hash })
+        return match
+#+END_SRC
+
+So, the contract has changed a bit here. Now, instead of raising an exception,
+=lock= simply returns =False= if the lock could not be acquired.
+
+We also remove the relevant tests that looked for raised exceptions.
+
+In addition, we found a small bug in =attempt_run_worker= where we attempt to
+acquire the lock in a =try= block and then =unlock= in the =finally=, but
+because that lock may not exist or be owned by a different worker at the time,
+we have to shuffle the structure a bit.
+
+#+BEGIN_SRC python
+if lock_is_free('worker', worker_hash, db) and lock('worker', worker_hash, db):
+    try:
+        worker_main(worker_hash, db)
+    finally:
+        unlock('worker', worker_hash, db)
+#+END_SRC
+
+Okay, now when we run this, we get exactly one line of output 'Maestro is the
+best......'.
+
+That makes sense, because only one worker can acquire the lock, the rest die
+immediately. You can see all our progress so far by checking out the tag =atomic-pass=
+
+Let's fill in the last bit now: retry logic.
+
+*** Retry logic
+
+Now, compared to the rest, this bit is a bit simpler. Given values for
+=give_up_after= and =retry_interval=, we poll the db in a =while= loop waiting
+for the lock to become available.
+
+#+BEGIN_SRC python
+def attempt_run_worker(worker_hash, give_up_after, db, retry_interval):
+    # ... snip docstring
+    total_wait_time = 0
+    while total_wait_time < give_up_after:
+        if not (lock_is_free('worker', worker_hash, db) and lock('worker', worker_hash, db)):
+            total_wait_time = total_wait_time + retry_interval
+            sleep(retry_interval)
+            continue
+
+        try:
+            worker_main(worker_hash, db)
+            break
+        except Exception as e:
+            print(f'{worker_hash} encountered error: {e}')
+        finally:
+            unlock('worker', worker_hash, db)
+    if total_wait_time >= give_up_after:
+        print(f'{worker_hash} gave up after {total_wait_time}')
+
+#+END_SRC
+
+Pretty simply, as long as we can't acquire the lock, sleep for =retry_interval=
+until we pass =give_up_after=.
+
+If we finally acquire the lock, start the worker, and break out of the loop,
+making sure to =unlock= on the way out.
+
+Now, testing this version, we finally get a successful run. Check out the
+=final-version= tag (or simply =HEAD= of the =master= branch) to see this
+final version.
+
+*** Just one more thing...
+
+So, we finally have a working version of our locking logic. But it's not so fun
+to use.
+
+If you look at =attempt_run_worker= there's so many details about getting a lock
+and waiting for the lock to become available that it should simply not be
+responsible for.
+
+Look at how nearly all of these lock-releated functions all take a =key= a
+=worker_hash= and a =db= instance.
+
+I think we can clean all of this up with a context handler. However, that
+involves moving around some functions into a different class, which I wasn't
+sure was kosher to the letter of the assignment. So, I've included this work in
+a different branch: =contextmanager-locking=.
+
+It's a simple refactor so I'll avoid getting too in-depth here. Mostly we create
+a =Lock= class and move =lock=, =unlock= and =lock_is_free= into it, renaming
+the latter to simply =is_free=.
+
+Then, we move the lock acquisition logic into a new method =try_obtain_lock=. We
+shuffle around the implementation a bit to make it easier to return whether the
+lock could be acquired on time.
+
+#+BEGIN_SRC python
+def try_obtain_lock(self):
+    """
+    Try to obtain the lock, retrying every self.retry_interval seconds up to
+    self.timeout seconds
+
+    Returns: 
+        True - if the lock was obtained
+        False - if we timed out before we could acquire the lock
+    """
+    wait_time = 0
+    lock_result = False
+    while not lock_result and wait_time < self.timeout:
+        lock_result = self.lock_is_free() and self.lock()
+        if not lock_result:
+            break
+        wait_time = wait_time + self.retry_interval
+        sleep(self.retry_interval)
+
+    return lock_result
+#+END_SRC
+
+
+Then, we define =__enter__= and =__exit__= methods to support using instances as context managers:
+
+#+BEGIN_SRC python
+def __enter__(self):
+    if not self.try_obtain_lock()
+        raise Exception('Timed out waiting for a lock')
+
+def __exit__(self, *args):
+    self.unlock()
+#+END_SRC
+
+As I went along I kept the tests in-sync with the new implementation to ensure everything would work correctly.
+
+Now =attempt_run_worker= looks like:
+
+#+BEGIN_SRC python
+def attempt_run_worker(worker_hash, give_up_after, db, retry_interval):
+    # ... snip docstring
+    lock = Lock(db=db, key='worker', owner=worker_hash, timeout=give_up_after, retry_interval=retry_interval)
+
+    try:
+        with lock:
+            try:
+                worker_main(worker_hash, db)
+            except Exception as e:
+                print(f'{worker_hash} encountered error: {e}')
+    except Exception as e:
+        print(f'{worker_hash} gave up waiting after {give_up_after}')
+
+#+END_SRC
+
+I feel like we've reached the limits of what we can do for this assignment.
+
+*** Conclusion
+
+So, just as I initialy thought, it takes some care to ensure that
+database-maintained locks are implemented correctly. The naive solution to read
+in the lock state and make decisions based on that simply allows too much for
+other concurrent processes to grab the lock before we can.
+
+So, we must let the decision of whether we can take the lock happen as close to
+where the lock is stored as possible to avoid network delays, in this case, the
+database. Real databases also have the advantage of implementing transactional
+locking for us, so it makes sense to lean on that as much as we can.
+
+At the end of it, we have a working implementation, unit tests to guarantee some
+of the key functions, and (depending on what branch you look at) also a helpful
+context manager to lessen the semantic load while reading through the code.
+
+Looking forward to hearing back from you, I really enjoyed this assignment!
+
+** Git Key
+*** Branches
+- =master= - the main assignment branch, and the branch most of the tags point to.
+- =contextmanager-locking= - an alternative branch that goes outside of the strict
+  letter of the assignment to explore implementing locking as a contextmanager
+  implementation
+*** Tags
+- =semantics-and-api= - an initial pass filling in function stubs and a version
+  of =attempt_run_worker= that simply tries to acquire the lock once
+
+- =lock-tests= - the result of a TDD approach to filling in the stubs from
+  =semantics-and-api=. Ultimately failing due to non-atomic lock acquisition
+
+- =atomic-pass= - a small refactor of the =lock= function to make it acquire
+  locks atomically
+
+- =final-version= - the final version of the mainline assignment, implementing
+  multiple attempts at lock acquisition in =attempt_run_worker=
