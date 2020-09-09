@@ -25,11 +25,6 @@ class LockTestCase(TestCase):
         new_lock = self.db.find_one({ '_id': 'worker' })
         self.assertEqual(new_lock.get('owner', None), self.worker_hash)
 
-    def test_lock_raises_when_already_locked_by_a_different_owner(self):
-        lock('worker', self.worker_hash, self.db)
-        with self.assertRaisesRegex(Exception, '^.* already locked!$'):
-            lock('worker', self.other_worker_hash, self.db)
-
     def test_lock_updates_an_existing_unlocked_lock(self):
         lock('worker', self.worker_hash, self.db)
         self.db.update_one({ '_id': 'worker' }, { 'locked': False })

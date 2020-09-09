@@ -15,17 +15,15 @@ def lock(key, worker_hash, db):
         key: a string naming the lock
         worker_hash: an string identifying the worker that currently holds the lock
         db: a mock_db.DB handle
+
+    Returns True if the lock was successfully acquired, False otherwise
     """
-    lock = db.find_one({ '_id': key })
-
-    if lock == None:
-        return db.insert_one({ '_id': key, 'locked': True, 'owner': worker_hash })
-
-    if lock['locked'] == True and lock['owner'] != worker_hash:
-        raise Exception(f'{key} is already locked!')
-
-    db.update_one({ '_id': key }, { 'locked': True, 'owner': worker_hash })
-
+    try:
+        db.insert_one({ '_id': key, 'locked': True, 'owner': worker_hash })
+        return True
+    except Exception:
+        match = db.update_one({ '_id': key, 'locked': False }, { 'locked': True, 'owner': worker_hash })
+        return match
 
 def unlock(key, worker_hash, db):
     """
@@ -77,12 +75,11 @@ def attempt_run_worker(worker_hash, give_up_after, db, retry_interval):
                             until the lock is free, unless we have been trying for more
                             than give_up_after seconds
     """
-    try:
-        if lock_is_free('worker', worker_hash, db):
-            lock('worker', worker_hash, db)
+    if lock_is_free('worker', worker_hash, db) and lock('worker', worker_hash, db):
+        try:
             worker_main(worker_hash, db)
-    finally:
-        unlock('worker', worker_hash, db)
+        finally:
+            unlock('worker', worker_hash, db)
 
 
 if __name__ == "__main__":
