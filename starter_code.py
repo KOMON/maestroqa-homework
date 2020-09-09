@@ -2,6 +2,7 @@ import mock_db
 import uuid
 from worker import worker_main
 from threading import Thread
+from time import sleep
 
 def lock(key, worker_hash, db):
     """
@@ -75,12 +76,22 @@ def attempt_run_worker(worker_hash, give_up_after, db, retry_interval):
                             until the lock is free, unless we have been trying for more
                             than give_up_after seconds
     """
-    if lock_is_free('worker', worker_hash, db) and lock('worker', worker_hash, db):
+    total_wait_time = 0
+    while total_wait_time < give_up_after:
+        if not (lock_is_free('worker', worker_hash, db) and lock('worker', worker_hash, db)):
+            total_wait_time = total_wait_time + retry_interval
+            sleep(retry_interval)
+            continue
+
         try:
             worker_main(worker_hash, db)
+            break
+        except Exception as e:
+            print(f'{worker_hash} encountered error: {e}')
         finally:
             unlock('worker', worker_hash, db)
-
+    if total_wait_time >= give_up_after:
+        print(f'{worker_hash} gave up after {total_wait_time}')
 
 if __name__ == "__main__":
     """
