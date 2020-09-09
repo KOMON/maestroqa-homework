@@ -2,65 +2,7 @@ import mock_db
 import uuid
 from worker import worker_main
 from threading import Thread
-from time import sleep
-
-def lock(key, worker_hash, db):
-    """
-    Lock a named lock using the given db handle, creating it if necessary.
-
-    Locking a lock that is currently held by a different worker (identified by worker_hash) fails
-
-    Locking a lock that is currently held by the same user is a no-op
-
-    Args:
-        key: a string naming the lock
-        worker_hash: an string identifying the worker that currently holds the lock
-        db: a mock_db.DB handle
-
-    Returns True if the lock was successfully acquired, False otherwise
-    """
-    try:
-        db.insert_one({ '_id': key, 'locked': True, 'owner': worker_hash })
-        return True
-    except Exception:
-        match = db.update_one({ '_id': key, 'locked': False }, { 'locked': True, 'owner': worker_hash })
-        return match
-
-def unlock(key, worker_hash, db):
-    """
-    Unlock a named lock using the given db handle. Only the worker currently holding the lock can unlock it
-
-    Unlocking a named lock that does not exist is a no-op
-
-    Unlocking a lock that is currently held by a different worker (identified by worker_hash) fails
-
-    Args:
-        key: a string naming the lock
-        worker_hash: a string identifying the worker that currently holds the lock
-        db: a mock_db.DB handle
-    """
-    lock = db.find_one({ '_id': key })
-
-    if lock == None:
-        return
-
-    if lock['owner'] != worker_hash:
-        raise Exception(f'{key} locked by a different owner!')
-
-    db.update_one({ '_id': key }, { 'locked': False })
-
-def lock_is_free(key, worker_hash, db):
-    """
-        Return whether the lock is free
-
-        Args:
-            key: a string naming the lock
-            worker_hash: a string identifying the worker that wants to know if the lock is free
-            db: a mock_db.DB handle
-    """
-    lock = db.find_one({ '_id': key })
-    return lock == None or not lock['locked']
-
+from lock import Lock
 
 def attempt_run_worker(worker_hash, give_up_after, db, retry_interval):
     """
@@ -76,22 +18,17 @@ def attempt_run_worker(worker_hash, give_up_after, db, retry_interval):
                             until the lock is free, unless we have been trying for more
                             than give_up_after seconds
     """
-    total_wait_time = 0
-    while total_wait_time < give_up_after:
-        if not (lock_is_free('worker', worker_hash, db) and lock('worker', worker_hash, db)):
-            total_wait_time = total_wait_time + retry_interval
-            sleep(retry_interval)
-            continue
 
-        try:
-            worker_main(worker_hash, db)
-            break
-        except Exception as e:
-            print(f'{worker_hash} encountered error: {e}')
-        finally:
-            unlock('worker', worker_hash, db)
-    if total_wait_time >= give_up_after:
-        print(f'{worker_hash} gave up after {total_wait_time}')
+    lock = Lock(db=db, key='worker', owner=worker_hash, timeout=give_up_after, retry_interval=retry_interval)
+
+    try:
+        with lock:
+            try:
+                worker_main(worker_hash, db)
+            except Exception as e:
+                print(f'{worker_hash} encountered error: {e}')
+    except Exception as e:
+        print(f'{worker_hash} gave up waiting after {give_up_after}')
 
 if __name__ == "__main__":
     """
